@@ -18,7 +18,7 @@ api = tweepy.API(auth)
 
 
 # What the bot will tweet
-tweet_list = ['test tweet 1!', 'test tweet 2!', 'test tweet 3!']
+tweet_list = ['test tweet !1', 'test tweet 2!', 'test tweet 3!']
 
 # loop through the tweet_list and tweet each item
 for line in tweet_list: 
