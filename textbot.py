@@ -1,36 +1,35 @@
-#!/usr/bin/env python
+#!/opt/anaconda3/bin/python
 # -*- coding: utf-8 -*-
 
-# Twitter Bot Starter Kit: Bot 2
-
-# This bot tweets a text file line by line, waiting a
-# given period of time between tweets.
-
-# Try this with another .txt file!
-# Download a Project Gutenberg "Plain Text UTF-8" file,
-# open it in a plain text editor, remove junk at beginning,
-# and replace all double-linebreaks with single linebreaks.
-
+# This bot tweets 7 jeopardy questions at 7pm each night.
+# Questions taken from https://www.reddit.com/r/datasets/comments/1uyd0t/200000_jeopardy_questions_in_a_json_file/
 
 # Housekeeping: do not edit
-import tweepy, time
+import tweepy, time, random, json
 from credentials import *
 auth = tweepy.OAuthHandler(API_KEY, API_SECRET)
 auth.set_access_token(ACCESS_TOKEN, ACCESS_SECRET)
 api = tweepy.API(auth)
 
-
 # What the bot will tweet
-filename = open('twain.txt','r') 
-tweet_text = filename.readlines() 
-filename.close()
+filename = open('/Users/tculler/Desktop/bot-tutorial-jumpstart/JEOPARDY_QUESTIONS1.json') 
+data = json.load(filename)
 
-# loop through the tweet_list
-for line in tweet_text[0:5]: # Will only write first 5 lines
-    api.update_status(status=line)
-    print(line)
-    time.sleep(2) # Sleep for 2 seconds
+real_tweet_text = []
 
-print("All done!")
+for item in data:
+    real_tweet_text.append('Category: ' + item['category'] + '; ' + item['question'][1:-1])
+
+print(real_tweet_text[0])
+
+# over the course of one minute, tweet jeopardy questions, waiting 8 seconds between each
+timespan = time.time() + 60 * 1
+
+while time.time() < timespan:    
+    # print(random.choice(real_tweet_text))
+    api.update_status(status=random.choice(real_tweet_text))
+    time.sleep(8) 
+
+# print("All done!")
 
 # To quit early: CTRL+C and wait a few seconds

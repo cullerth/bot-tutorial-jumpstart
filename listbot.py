@@ -18,7 +18,7 @@ api = tweepy.API(auth)
 
 
 # What the bot will tweet
-tweet_list = ['Test tweet one', 'Test tweet two', 'Test tweet three']
+tweet_list = ['', 'Day 2!', 'Yeah!']
 
 # loop through the tweet_list and tweet each item
 for line in tweet_list: 
@@ -26,7 +26,7 @@ for line in tweet_list:
     print(line)
     api.update_status(status=line)
     print('...')
-    time.sleep(15) # Sleep for 15 seconds
+    time.sleep(0) # Sleep for 15 seconds
 
 print("All done!")
 
