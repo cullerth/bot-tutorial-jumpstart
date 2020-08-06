@@ -4,6 +4,8 @@
 # This bot tweets 7 jeopardy questions at 7pm each night.
 # Questions taken from https://www.reddit.com/r/datasets/comments/1uyd0t/200000_jeopardy_questions_in_a_json_file/
 
+# follow at https://twitter.com/BotJumpstart
+
 # Housekeeping: do not edit
 import tweepy, time, random, json
 from credentials import *
