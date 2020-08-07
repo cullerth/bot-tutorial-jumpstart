@@ -1,7 +1,7 @@
 #!/opt/anaconda3/bin/python
 # -*- coding: utf-8 -*-
 
-# This bot tweets 7 jeopardy questions at 7pm each night.
+# This bot tweets 7 random jeopardy questions at 7pm each night.
 # Questions taken from https://www.reddit.com/r/datasets/comments/1uyd0t/200000_jeopardy_questions_in_a_json_file/
 
 # follow at https://twitter.com/BotJumpstart
@@ -17,21 +17,37 @@ api = tweepy.API(auth)
 filename = open('/Users/tculler/Desktop/bot-tutorial-jumpstart/JEOPARDY_QUESTIONS1.json') 
 data = json.load(filename)
 
-real_tweet_text = []
+categories = []
+values = []
+questions = []
+answers = []
+air_dates = []
 
 for item in data:
-    real_tweet_text.append('Category: ' + item['category'] + '; ' + item['question'][1:-1])
+    categories.append(item['category'])
+    values.append(item['value'])
+    questions.append(item['question'][1:-1])
+    answers.append(item['answer'])
+    air_dates.append(item['air_date'])
 
-print(real_tweet_text[0])
+tweet_tuples = list(zip(categories,values,questions,answers,air_dates))
 
 # over the course of one minute, tweet jeopardy questions, waiting 8 seconds between each
 timespan = time.time() + 60 * 1
 
 while time.time() < timespan:    
-    # print(random.choice(real_tweet_text))
-    api.update_status(status=random.choice(real_tweet_text))
-    time.sleep(8) 
+    tweet = random.choice(tweet_tuples)
+    question = tweet[0] + " for " + tweet[1] + "; " + tweet[2]
+    answer = "ANSWER: " + tweet[3] + "; originally aired on " + tweet[4]
 
-# print("All done!")
+    print(question)
+    print(answer)
+
+    thread_start = api.update_status(status=question)
+    api.update_status(status=answer, in_reply_to_status_id=thread_start.id)
+
+    time.sleep(8)
+
+print("All done!")
 
 # To quit early: CTRL+C and wait a few seconds
