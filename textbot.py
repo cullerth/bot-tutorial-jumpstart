@@ -35,19 +35,25 @@ tweet_tuples = list(zip(categories,values,questions,answers,air_dates))
 # over the course of one minute, tweet jeopardy questions, waiting 8 seconds between each
 timespan = time.time() + 60 * 1
 
-while time.time() < timespan:    
-    tweet = random.choice(tweet_tuples)
-    question = tweet[0] + " for " + tweet[1] + "; " + tweet[2]
-    answer = "ANSWER: " + tweet[3] + "; originally aired on " + tweet[4]
+while time.time() < timespan:
+    try:     
+        tweet = random.choice(tweet_tuples)
+        question = tweet[0] + " for " + tweet[1] + "; " + tweet[2]
+        answer = "ANSWER: \n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n \n" + tweet[3] + "; \n\noriginally aired on " + tweet[4]
 
-    print(question)
-    print(answer)
+        print('\n*******************\n')
+        print(question)
+        print(answer)
 
-    thread_start = api.update_status(status=question)
-    api.update_status(status=answer, in_reply_to_status_id=thread_start.id)
+        thread_start = api.update_status(status=question)
+        api.update_status(status=answer, in_reply_to_status_id=thread_start.id)
 
-    time.sleep(8)
+        time.sleep(8)
+    except: 
+        error_message = "Oop! Looks like Watson encountered an error. We're in real jeopardy now. *heavily distorted final jeopardy music begins playing over the loudspeaker...in the distance: sirens*"
+        print(error_message)
+        # api.update_status(status=error_message)
 
-print("All done!")
+print("\nAll done!")
 
 # To quit early: CTRL+C and wait a few seconds
